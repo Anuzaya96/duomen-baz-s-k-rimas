@@ -24,17 +24,21 @@ class Uzsakymas(Base):
     uzsakymo_data = Column("Data", DateTime, default=datetime.datetime.utcnow)
     suma = Column("suma", Float)
     pristatymo_adresas = Column("adresas", String)
-    #sastusas_id = Column("satusas_id", Integer, ForeignKey("statusas.id"))
-    #statusas = relationship("Uzsakymo_statusas", back_populates='Uzsakymas')
-    #klientas_id = 
-    #klientas
+
+    sastusas_id = Column("statusas_id", Integer, ForeignKey("uzsakymo statusas.id"))
+    statusas = relationship("Uzsakymo_statusas", back_populates="uzsakymo statusas")
+
+    klientas_id = Column("klientas_id", Integer, ForeignKey("klientas.id"))
+    klientas = relationship("Klientas", Integer, back_populates="klientas")
+
+
     def __repr__(self):
         return f"({self.id}, {self.uzsakymo_data}, {self.suma}, {self.pristatymo_adresas})"
 
 class Uzsakymo_statusas(Base):
     __tablename__ = "uzsakymo statusas"
     id = Column(Integer, primary_key=True)
-    pavadinimas = ("pavadinimas", String)
+    pavadinimas = Column("pavadinimas", String)
 
     def __repr__(self):
         return f"({self.id},{self.pavadinimas})"
@@ -44,8 +48,11 @@ class Uzsakymo_eilute(Base):
     id = Column(Integer, primary_key=True)
     kiekis = Column("kiekis", Integer)
     suma = Column("suma", Float)
-    uzsakymas_id = 
-    gaminys_id = Column()
+    uzsakymas_id = Column("uzsakymas_id", Integer, ForeignKey("uzsakymas.id"))
+    uzsakymas = relationship("Uzsakymas", Integer, back_populates="uzsakymas")
+
+    gaminys_id = Column("gaminys_id", Integer, ForeignKey("uzsakymas.id"))
+    gaminys = relationship("Gaminys", Integer, back_populates = ("gaminys"))
 
     def __repr__(self):
         return f"({self.id}, {self.kiekis}, {self.suma})"
@@ -53,9 +60,9 @@ class Uzsakymo_eilute(Base):
 class Gaminys(Base):
     __tablename__ = "gaminys"
     id = Column(Integer, primary_key=True)
-    pavadinimas = ("pavadinimas", String)
-    _1_vnt_kaina = ("1 vnt kaina", Float)
-    _1_vnt_svoris = ("1 vnt svoris", Float)
+    pavadinimas = Column("pavadinimas", String)
+    _1_vnt_kaina = Column("1 vnt kaina", Float)
+    _1_vnt_svoris = Column("1 vnt svoris", Float)
     
     def __repr__(self):
         return f"({self.id}, )"
