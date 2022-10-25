@@ -14,6 +14,7 @@ class Klientas(Base):
     pavarde = Column("pavarde", String)
     tel_nr = Column("telefono numeris", String)
     adresas = Column("adresas", String)
+    uzsakymai = relationship("Uzsakymas", back_populates = "klientas")
 
     def __repr__(self):
         return f"({self.id},{self.vardas},{self.pavarde},{self.tel_nr},{self.adresas})"
@@ -25,34 +26,37 @@ class Uzsakymas(Base):
     suma = Column("suma", Float)
     pristatymo_adresas = Column("adresas", String)
 
-    sastusas_id = Column("statusas_id", Integer, ForeignKey("uzsakymo statusas.id"))
-    statusas = relationship("Uzsakymo_statusas", back_populates="uzsakymo statusas")
+    statusas_id = Column("statusas_id", Integer, ForeignKey("statusas.id"))
+    statusas = relationship("UzsakymoStatusas", back_populates="uzsakymai")
 
     klientas_id = Column("klientas_id", Integer, ForeignKey("klientas.id"))
-    klientas = relationship("Klientas", Integer, back_populates="klientas")
+    klientas = relationship("Klientas", back_populates="uzsakymai")
 
+    uzsakymo_eilutes = relationship("UzsakymoEilute", back_populates = "uzsakymas")
 
     def __repr__(self):
         return f"({self.id}, {self.uzsakymo_data}, {self.suma}, {self.pristatymo_adresas})"
 
-class Uzsakymo_statusas(Base):
-    __tablename__ = "uzsakymo statusas"
+class UzsakymoStatusas(Base):
+    __tablename__ = "statusas"
     id = Column(Integer, primary_key=True)
     pavadinimas = Column("pavadinimas", String)
+    uzsakymai = relationship("Uzsakymas", back_populates = "statusas")
+
 
     def __repr__(self):
         return f"({self.id},{self.pavadinimas})"
 
-class Uzsakymo_eilute(Base):
-    __tablename__ = "uzsakymo eilute"
+class UzsakymoEilute(Base):
+    __tablename__ = "uzsakymo_eilute"
     id = Column(Integer, primary_key=True)
     kiekis = Column("kiekis", Integer)
     suma = Column("suma", Float)
     uzsakymas_id = Column("uzsakymas_id", Integer, ForeignKey("uzsakymas.id"))
-    uzsakymas = relationship("Uzsakymas", Integer, back_populates="uzsakymas")
+    uzsakymas = relationship("Uzsakymas", back_populates="uzsakymo_eilutes")
 
     gaminys_id = Column("gaminys_id", Integer, ForeignKey("uzsakymas.id"))
-    gaminys = relationship("Gaminys", Integer, back_populates = ("gaminys"))
+    gaminys = relationship("Gaminys", back_populates = "uzsakymo_eilutes")
 
     def __repr__(self):
         return f"({self.id}, {self.kiekis}, {self.suma})"
@@ -63,6 +67,7 @@ class Gaminys(Base):
     pavadinimas = Column("pavadinimas", String)
     _1_vnt_kaina = Column("1 vnt kaina", Float)
     _1_vnt_svoris = Column("1 vnt svoris", Float)
+    uzsakymo_eilutes = relationship("UzsakymoEilute", back_populates = "gaminys")
     
     def __repr__(self):
         return f"({self.id}, )"
