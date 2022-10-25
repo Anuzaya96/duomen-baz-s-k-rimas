@@ -55,7 +55,7 @@ class UzsakymoEilute(Base):
     uzsakymas_id = Column("uzsakymas_id", Integer, ForeignKey("uzsakymas.id"))
     uzsakymas = relationship("Uzsakymas", back_populates="uzsakymo_eilutes")
 
-    gaminys_id = Column("gaminys_id", Integer, ForeignKey("uzsakymas.id"))
+    gaminys_id = Column("gaminys_id", Integer, ForeignKey("gaminys.id"))
     gaminys = relationship("Gaminys", back_populates = "uzsakymo_eilutes")
 
     def __repr__(self):
