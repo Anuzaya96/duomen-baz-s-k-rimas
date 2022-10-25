@@ -51,9 +51,9 @@ class UzsakymoEilute(Base):
     __tablename__ = "uzsakymo_eilute"
     id = Column(Integer, primary_key=True)
     kiekis = Column("kiekis", Integer)
-    suma = Column("suma", Float)
+    suma = Column("suma", Integer)
     uzsakymas_id = Column("uzsakymas_id", Integer, ForeignKey("uzsakymas.id"))
-    uzsakymas = relationship("Uzsakymas", back_populates="uzsakymo_eilutes")
+    uzsakymas = relationship("Uzsakymas", back_populates ="uzsakymo_eilutes")
 
     gaminys_id = Column("gaminys_id", Integer, ForeignKey("gaminys.id"))
     gaminys = relationship("Gaminys", back_populates = "uzsakymo_eilutes")
@@ -70,7 +70,7 @@ class Gaminys(Base):
     uzsakymo_eilutes = relationship("UzsakymoEilute", back_populates = "gaminys")
     
     def __repr__(self):
-        return f"({self.id}, )"
+        return f"({self.id}, {self.pavadinimas}, {self._1_vnt_kaina}, {self._1_vnt_svoris})"
 
 if __name__ == "__main__":
     #Base.metadata.drop_all(engine)

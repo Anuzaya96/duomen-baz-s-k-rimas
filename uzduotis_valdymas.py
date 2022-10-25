@@ -1,22 +1,24 @@
-#Ivesti klienta
-#Ivesti uzsakyma
-#Ivesti uzsakymo statusa
-#Ivesti uzsakymo eilute
-#Ivesti gamini
-#Perziureti klienta
-#Perziureti uzsakyma
-#Perziureti suzsakymo statusa
-#Perziureti uzsakymo eilute
-#Perziureti gamini
-
 from sqlalchemy.orm import sessionmaker
 from uzduotis import engine, Klientas, Uzsakymas, UzsakymoStatusas, UzsakymoEilute, Gaminys
+
 
 Session = sessionmaker(bind=engine)
 session = Session()
 
 while True:
-    pasirinkimas = input("1 - a - įveskite klientą\n2 - b - įveskite užsakymą\n3 - c - įveskite užsakymo statusą\n4 - d - įveskite užsakymo eilutę\n5 - e - įveskite gaminį\n6 - f - peržiūrėti klientą\n7 - g - peržiūrėti užsakymą\n8 - h - peržiūrėti užsakymo statusą\n9 - i - peržiūrėti užsakymo eilutę\n10 - j - peržiūrėti gaminį\n11 - k - išeiti iš programos\11") 
+    pasirinkimas = input("<<<<<< Meniu: >>>>>>\
+        \n1 - a - įveskite klientą \
+        \n2 - b - įveskite užsakymą \
+        \n3 - c - įveskite užsakymo statusą \
+        \n4 - d - įveskite užsakymo eilutę \
+        \n5 - e - įveskite gaminį\
+        \n6 - f - peržiūrėti klientą\
+        \n7 - g - peržiūrėti užsakymą\
+        \n8 - h - peržiūrėti užsakymo statusą\
+        \n9 - i - peržiūrėti užsakymo eilutę\
+        \n10 - j - peržiūrėti gaminius \
+        \n11 - k - išeiti iš programos \
+        ") 
     if pasirinkimas == "a":
         vardas = input("Įveskite vardą: ")
         pavarde = input("Įveskite pavardę: ")
@@ -27,12 +29,12 @@ while True:
         session.commit()
 
     if pasirinkimas == "b":
-        suma = input("Suma")
-        prisatymo_adresas = input("Pristatymo adresas")
-        uzsakymas = Uzsakymas(suma=suma, prisatymo_adresas=prisatymo_adresas)
+        suma = input("Suma: ")
+        pristatymo_adresas = input("Pristatymo adresas: ")
+        uzsakymas = Uzsakymas(suma=suma, pristatymo_adresas=pristatymo_adresas)
         session.add(uzsakymas)
         session.commit()
-        
+
     if pasirinkimas == "c":
         pavadinimas = input("Užsakymo statusas: ")
         uzsakymo_statusas = UzsakymoStatusas(pavadinimas=pavadinimas)
@@ -41,18 +43,18 @@ while True:
 
     if pasirinkimas == "d":
         kiekis = input("Gaminių kiekis: ")
-        suma = ("Suma: ")
+        suma = input("Suma:")
         uzsakymo_eilute = UzsakymoEilute(kiekis=kiekis, suma=suma)
         session.add(uzsakymo_eilute)
         session.commit()
 
     if pasirinkimas == "e":
-        pavadinimas = input("Gamynio pavadinimas: ")
+        pavadinimas = input("Gaminio pavadinimas: ")
         _1_vnt_kaina = input("Vnt kaina: ")
         _1_vnt_svoris = input("Vnt svoris: ")
         gaminys = Gaminys(pavadinimas=pavadinimas, _1_vnt_kaina=_1_vnt_kaina, _1_vnt_svoris=_1_vnt_svoris)
         session.add(gaminys)
-        session.query()
+        session.commit()
 
     if pasirinkimas == "f":
         klientai = session.query(Klientas).all()
